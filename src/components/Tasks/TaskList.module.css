@@ -1,0 +1,42 @@
+.taskList {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.listContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.listContent button {
+  background: transparent;
+  color: #0077b6;
+  font-size: 1.15rem;
+  font-weight: 600;
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+/* div {
+  border: #0077b6 2px solid;
+} */
+p {
+  color: black;
+  font-weight: 500;
+  margin: 0;
+}
+.h2 {
+  color: #0077b6;
+  margin: 0 auto;
+
+  width: 55%;
+}
+
+@media (max-width: 800px) {
+  .h2 {
+    margin: 0;
+  }
+}
