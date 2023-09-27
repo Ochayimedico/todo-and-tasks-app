@@ -13,8 +13,9 @@
 
 .control label {
   font-weight: bold;
+  font-size: 1.25rem;
   flex: 1;
-  color: #464646;
+  color: #000000;
   margin-bottom: 0.5rem;
 }
 
@@ -45,6 +46,8 @@
   flex-direction: row;
   justify-content: flex-end;
 }
-h2 {
-  color: black;
+
+.error {
+  color: #d41515;
+  font-size: 0.9rem;
 }

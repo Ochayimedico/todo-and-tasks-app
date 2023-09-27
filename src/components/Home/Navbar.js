@@ -48,10 +48,10 @@ const Navbar = () => {
           </li> */}
           <li>
             <NavLink
-              to="/create-account"
+              to="/register"
               className={(navData) => (navData.isActive ? styles.active : "")}
             >
-              Create Account
+              Register
             </NavLink>
           </li>
         </div>

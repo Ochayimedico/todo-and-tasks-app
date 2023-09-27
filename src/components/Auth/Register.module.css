@@ -1,9 +1,9 @@
-h2 {
+.title {
   color: black;
 }
 span {
-  color: red;
-  font-style: italic;
+  color: #d40000;
+  /* font-style: italic; */
   font-size: 0.7rem;
   font-weight: 600;
 }

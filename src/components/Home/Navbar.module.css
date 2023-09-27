@@ -27,8 +27,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  width: 17.5rem;
+  width: 14rem;
   margin-right: 2rem;
 }
 
@@ -81,8 +80,8 @@
     margin-left: 0.5rem;
   }
   .auth {
-    width: 10.5rem;
-    margin-right: 0.5rem;
+    width: 8.5rem;
+    margin-right: 1rem;
   }
 
   .links {

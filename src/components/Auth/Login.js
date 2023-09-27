@@ -45,7 +45,7 @@ const Login = () => {
     <div className={styles.width}>
       <Card>
         <form onSubmit={submitHandler}>
-          <h2>Login to Your Account</h2>
+          <h2 className={styles.title}>Login to Your Account</h2>
           <div className={styles.control}>
             <label htmlFor="username">Username</label>
             <input type="text" id="username" ref={emailRef} />

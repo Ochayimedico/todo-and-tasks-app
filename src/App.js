@@ -3,7 +3,7 @@ import "./App.css";
 import Todo from "./components/Todo/Todo";
 import Tasks from "./components/Tasks/Tasks";
 import Home from "./components/Home/Home";
-import CreateAccount from "./components/Auth/CreateAccount";
+import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import ErrorPage from "./components/Home/ErrorPage";
 import RootLayout from "./components/Home/RootLayout";
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <Todo />,
       },
       { path: "login", element: <Login /> },
-      { path: "create-account", element: <CreateAccount /> },
+      { path: "register", element: <Register /> },
     ],
   },
 ]);
