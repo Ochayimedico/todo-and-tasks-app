@@ -2,13 +2,13 @@
   color: black;
 }
 span {
-  color: #d40000;
+  color: #b00020;
   /* font-style: italic; */
   font-size: 0.7rem;
   font-weight: 600;
 }
 .width {
-  width: 80%;
+  width: 60%;
   margin: 10% auto;
 }
 .control {
@@ -51,7 +51,5 @@ span {
 
 .actions {
   text-align: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  background-color: #0077b6;
 }

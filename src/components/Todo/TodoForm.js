@@ -22,7 +22,7 @@ const TodoForm = (props) => {
   return (
     <Card>
       <form>
-        <h2>Add a Todo</h2>
+        <h2 className={styles.title}>Add a Todo</h2>
         <div className={styles.control}>
           <label htmlFor="title">Add Title</label>
           <input type="text" id="title" ref={titleRef} required />

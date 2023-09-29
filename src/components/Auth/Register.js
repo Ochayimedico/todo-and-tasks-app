@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { supabase } from "../../utils/supabase";
 import Card from "../UI/Card";
-import AuthButton from "../UI/Button";
+import AuthButton from "../UI/AuthButton";
 import styles from "./Register.module.css";
 import LoadingState from "../States/LoadingState";
 import CreationSuccess from "../States/CreationSuccess";
@@ -51,7 +51,7 @@ const Register = () => {
     if (data) {
       setIsLoading(false);
       setIsUserDataSent(true);
-      console.log("Account successfully created!");
+      console.log("Account successfully created!", data);
     } else if (error) {
       console.log("Account could not be created, try again.");
     }
@@ -76,7 +76,7 @@ const Register = () => {
       if (isUserDataSent) {
         setIsUserDataSent(false);
       }
-    }, 2000);
+    }, 5000);
     return () => {
       clearTimeout(timerId);
     };
@@ -119,7 +119,7 @@ const Register = () => {
             <span>{passwordError}</span>
           </div>
 
-          <div className={styles.actions}>
+          <div>
             <AuthButton onAddHandler={registerHandler}>Register</AuthButton>
           </div>
         </form>
