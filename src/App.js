@@ -7,6 +7,7 @@ import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import ErrorPage from "./components/Home/ErrorPage";
 import RootLayout from "./components/Home/RootLayout";
+import ConfirmationPage from "./components/Home/ConfirmationPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,8 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
     ],
   },
+
+  { path: "/confirmation-page", element: <ConfirmationPage /> },
 ]);
 
 function App() {

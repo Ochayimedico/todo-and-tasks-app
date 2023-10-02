@@ -1,17 +1,21 @@
 import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { supabase } from "../../utils/supabase";
 import Card from "../UI/Card";
 import AuthButton from "../UI/AuthButton";
 import styles from "./Register.module.css";
 import LoadingState from "../States/LoadingState";
 import CreationSuccess from "../States/CreationSuccess";
+import { useNavigate } from "react-router-dom";
 import {
   validateUsername,
   validateEmail,
   validatePassword,
 } from "../../utils/validation";
+import { authVariants } from "../../utils/animationVariants";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -43,18 +47,24 @@ const Register = () => {
     }
 
     setIsLoading(true);
-    let { data, error } = await supabase.auth.signUp({
-      username: usernameInput,
-      email: emailInput,
-      password: passwordInput,
-    });
-    if (data) {
-      setIsLoading(false);
-      setIsUserDataSent(true);
-      console.log("Account successfully created!", data);
-    } else if (error) {
-      console.log("Account could not be created, try again.");
+    try {
+      let { data, error } = await supabase.auth.signUp({
+        username: usernameInput,
+        email: emailInput,
+        password: passwordInput,
+      });
+      if (data) {
+        setIsLoading(false);
+        setIsUserDataSent(true);
+        navigate("/confirmation-page");
+        console.log("Account successfully created!", data.user.id);
+      } else if (error) {
+        console.log("Account could not be created, try again.");
+      }
+    } catch (error) {
+      console.log(error);
     }
+
     setUsernameError("");
     setEmailError("");
     setPasswordError("");
@@ -82,7 +92,12 @@ const Register = () => {
     };
   }, [isUserDataSent]);
   return (
-    <div className={styles.width}>
+    <motion.div
+      variants={authVariants}
+      initial="hidden"
+      animate="visible"
+      className={styles.width}
+    >
       {isLoading && <LoadingState />}
       {isUserDataSent && <CreationSuccess />}
       <Card>
@@ -124,7 +139,7 @@ const Register = () => {
           </div>
         </form>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { supabase } from "../../utils/supabase";
+import { validateEmail, validatePassword } from "../../utils/validation";
+import { loggingInVariants, authVariants } from "../../utils/animationVariants";
 import Card from "../UI/Card";
 import AuthButton from "../UI/AuthButton";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
-import { validateEmail, validatePassword } from "../../utils/validation";
 import LoginError from "../States/LoginError";
-// import LoadingState from "../States/LoadingState";
 
 const Login = () => {
   const emailRef = useRef();
@@ -33,40 +34,39 @@ const Login = () => {
       return;
     }
     setIsLoading(true);
+
     try {
       let { data, error } = await supabase.auth.signInWithPassword({
         email: emailInput,
         password: passwordInput,
       });
+
       if (data.user) {
         setIsLoading(false);
-        // setIsLoggedIn(true);
-
-        console.log("logged in successfully", data.user);
-        console.log(data.session);
+        console.log("logged in successfully");
         navigate("/");
-      }
-      if (!data.user) {
+      } else if (!data.user) {
+        setIsLoading(false);
         navigate("");
-        console.log(supabase.auth.signInWithPassword);
-
-        return console.log("user not authenticated", data.user);
+        console.log("user not authenticated");
       } else if (error) {
         console.error("Error, could not log in.", error);
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
-
     emailRef.current.value = "";
     passwordRef.current.value = "";
   };
 
   return (
-    <div className={styles.width}>
-      {/* {isLoading && <LoadingState />} */}
+    <motion.div
+      variants={authVariants}
+      initial="hidden"
+      animate="visible"
+      className={styles.width}
+    >
       {emailError || passwordError ? <LoginError /> : ""}
-
       <Card>
         <form onSubmit={submitHandler}>
           <h2 className={styles.title}>Login to Your Account</h2>
@@ -77,17 +77,28 @@ const Login = () => {
 
           <div className={styles.control}>
             <label htmlFor="password">Password</label>
-            <input type="text" id="password" ref={passwordRef} />
+            <input type="password" id="password" ref={passwordRef} />
           </div>
 
           <div className={styles.actions}>
             <AuthButton onAddHandler={loginHandler}>
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? (
+                <motion.span
+                  variants={loggingInVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className={styles.loggingIn}
+                >
+                  Logging in...
+                </motion.span>
+              ) : (
+                "Login"
+              )}
             </AuthButton>
           </div>
         </form>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 

@@ -49,3 +49,7 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+.loggingIn {
+  font: inherit;
+  color: white;
+}
