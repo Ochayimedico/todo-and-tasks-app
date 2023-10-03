@@ -112,7 +112,7 @@ li.logout-button:active {
   .header li {
     font-weight: 500;
     padding: 0.3rem 0.6rem;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     border-radius: 0.7rem;
   }
 
@@ -121,6 +121,6 @@ li.logout-button:active {
     border-bottom: 3px solid white;
   }
   h3 {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }

@@ -23,3 +23,8 @@
   color: #0096c7;
   border-color: #0096c7;
 }
+@media (max-width: 800px) {
+  .tasksContent {
+    width: 70%;
+  }
+}

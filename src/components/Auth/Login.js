@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../../utils/supabase";
 import { validateEmail, validatePassword } from "../../utils/validation";
-import { loggingInVariants, authVariants } from "../../utils/animationVariants";
+import { loadingVariants, linksVariants } from "../../utils/animationVariants";
 import Card from "../UI/Card";
 import AuthButton from "../UI/AuthButton";
 import styles from "./Login.module.css";
@@ -61,7 +61,7 @@ const Login = () => {
 
   return (
     <motion.div
-      variants={authVariants}
+      variants={linksVariants}
       initial="hidden"
       animate="visible"
       className={styles.width}
@@ -84,7 +84,7 @@ const Login = () => {
             <AuthButton onAddHandler={loginHandler}>
               {isLoading ? (
                 <motion.span
-                  variants={loggingInVariants}
+                  variants={loadingVariants}
                   initial="hidden"
                   animate="visible"
                   className={styles.loggingIn}

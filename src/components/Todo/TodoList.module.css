@@ -9,30 +9,46 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-weight: 700;
 }
 .listContent button {
-  background: transparent;
-  color: #0077b6;
-  font-size: 1.15rem;
+  background-color: #b00020;
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
   font-weight: 600;
-  border: none;
-  text-transform: uppercase;
+  border: solid 2px #b00020;
+  text-transform: capitalize;
   cursor: pointer;
   margin-left: 0.5rem;
+  letter-spacing: 0.025em;
+}
+.listContent button:hover {
+  background-color: #c21938;
+  border: solid 2px #c21938;
 }
 
-h4,
-p {
+.listContent h4,
+.listContent p {
   color: black;
-  margin: 0;
+  margin: 0.25em 0;
+  font-weight: 800;
 }
-p {
+.listContent p {
   font-weight: 500;
 }
 .h2 {
   color: #0077b6;
   margin: 0 auto;
   width: 55%;
+}
+.loadingTodos {
+  color: white;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 800px) {

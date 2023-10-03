@@ -1,20 +1,34 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
 import styles from "./TodoForm.module.css";
+import { supabase } from "../../utils/supabase";
+import { loadingVariants } from "../../utils/animationVariants";
 
-const TodoForm = (props) => {
+const TodoForm = ({ onAddTodo }) => {
   const titleRef = useRef();
   const todoRef = useRef();
-
-  const addTodoHandler = () => {
+  const [isAddingTodo, setIsAddingTodo] = useState(false);
+  const addTodoHandler = async () => {
     const titleContent = titleRef.current.value;
     const todoContent = todoRef.current.value;
-
+    setIsAddingTodo(true);
     if (titleContent.trim() === "" || todoContent.trim() === "") {
+      setIsAddingTodo(false);
       return;
+    } else {
+      try {
+        await supabase
+          .from("todos")
+          .insert([{ todo_title: titleContent, todo: todoContent }])
+          .select();
+      } catch (error) {
+        console.error(error);
+      }
+      setIsAddingTodo(false);
     }
-    props.onAddTodo(titleContent, todoContent);
+    onAddTodo(titleContent, todoContent);
     titleRef.current.value = "";
     todoRef.current.value = "";
   };
@@ -39,7 +53,20 @@ const TodoForm = (props) => {
           ></textarea>
         </div>
         <div className={styles.actions}>
-          <Button onAddHandler={addTodoHandler}>Add Todo</Button>
+          <Button onAddHandler={addTodoHandler}>
+            {isAddingTodo ? (
+              <motion.span
+                variants={loadingVariants}
+                initial="hidden"
+                animate="visible"
+                className={styles.addingTodo}
+              >
+                Adding Todo...
+              </motion.span>
+            ) : (
+              "Add Todo"
+            )}
+          </Button>
         </div>
       </form>
     </Card>

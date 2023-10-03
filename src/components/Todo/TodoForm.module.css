@@ -49,6 +49,10 @@
   flex-direction: row;
   justify-content: flex-end;
 }
+.addingTodo {
+  font: inherit;
+  color: white;
+}
 
 /* @media (min-width: 768px) {
   .control {

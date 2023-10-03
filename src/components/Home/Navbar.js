@@ -3,7 +3,7 @@ import styles from "./Navbar.module.css";
 import { useAuthState } from "../../utils/authState";
 import { supabase } from "../../utils/supabase";
 import { motion } from "framer-motion";
-import { logoVariants } from "../../utils/animationVariants";
+import { navVariants } from "../../utils/animationVariants";
 
 const Navbar = () => {
   const { isUserLoggedIn } = useAuthState();
@@ -16,16 +16,15 @@ const Navbar = () => {
   };
   return (
     <header className={styles.header}>
-      <nav className={styles.content}>
+      <motion.nav
+        variants={navVariants}
+        initial="hidden"
+        animate="visible"
+        className={styles.content}
+      >
         <div className={styles["home-and-links"]}>
           <NavLink to="/">
-            <motion.h3
-              variants={logoVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              Todos & Tasks App
-            </motion.h3>
+            <motion.h3>Todos & Tasks App</motion.h3>
           </NavLink>
 
           <div className={styles.links}>
@@ -75,7 +74,7 @@ const Navbar = () => {
             </li>
           )}
         </div>
-      </nav>
+      </motion.nav>
     </header>
   );
 };

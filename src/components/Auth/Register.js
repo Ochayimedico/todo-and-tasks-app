@@ -12,7 +12,7 @@ import {
   validateEmail,
   validatePassword,
 } from "../../utils/validation";
-import { authVariants } from "../../utils/animationVariants";
+import { linksVariants } from "../../utils/animationVariants";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ const Register = () => {
   }, [isUserDataSent]);
   return (
     <motion.div
-      variants={authVariants}
+      variants={linksVariants}
       initial="hidden"
       animate="visible"
       className={styles.width}

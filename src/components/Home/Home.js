@@ -12,10 +12,10 @@ const Home = () => {
     >
       <motion.h1>Welcome to Todos and Tasks Home Page</motion.h1>
 
-      <p>
+      <motion.p variants={homeVariants} initial="hidden" animate="visible">
         You can navigate to either one of Todos or Tasks page to add a todo or
         task.
-      </p>
+      </motion.p>
 
       <div className={styles.links}>
         <Link to="todos">
