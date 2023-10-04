@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabase";
-// import { Link } from "react-router-dom";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import styles from "./Todo.module.css";
@@ -8,10 +7,11 @@ import { motion } from "framer-motion";
 import { linksVariants } from "../../utils/animationVariants";
 
 const Todo = () => {
-  const [todo, setTodo] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [isFetchingTodos, setIsFetchingTodos] = useState(false);
 
   useEffect(() => {
+    // Fetching Initial Todos
     setIsFetchingTodos(true);
     const fetchTodos = async () => {
       try {
@@ -20,7 +20,7 @@ const Todo = () => {
           .select("id, todo_title, todo");
         if (todos) {
           setIsFetchingTodos(false);
-          setTodo(todos);
+          setTodos(todos);
         } else if (error) {
           console.error("error loading todos", error);
         }
@@ -29,9 +29,29 @@ const Todo = () => {
       }
     };
     fetchTodos();
+    // Subscribe to real-time updates for the "todos" table
+    const todosSubscription = supabase
+      .channel("any")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "todos" },
+        (payload) => {
+          if (payload.eventType === "INSERT") {
+            // Handle new todo insertion
+            setTodos((prevTodos) => [...prevTodos, payload.new]);
+          } else if (payload.eventType === "DELETE") {
+            // Handle todo deletion
+            setTodos((prevTasks) =>
+              prevTasks.filter((todo) => todo.id !== payload.old.id)
+            );
+          }
+        }
+      )
+      .subscribe();
+    return () => {
+      todosSubscription.unsubscribe();
+    };
   }, []);
-
-  const addTodoHandler = () => {};
 
   return (
     <motion.div
@@ -40,8 +60,8 @@ const Todo = () => {
       animate="visible"
       className={styles.todoContent}
     >
-      <TodoForm onAddTodo={addTodoHandler} />
-      <TodoList todos={todo} isFetchingTodos={isFetchingTodos} />
+      <TodoForm />
+      <TodoList todos={todos} isFetchingTodos={isFetchingTodos} />
     </motion.div>
   );
 };

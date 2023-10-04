@@ -76,6 +76,7 @@ export const linksVariants = {
       ease: "easeInOut",
       delay: 0.3,
       duration: 0.8,
+      when: "beforeChildren",
     },
   },
 };
@@ -95,14 +96,18 @@ export const loadingVariants = {
 
 export const listItemVariants = {
   hidden: {
-    x: -100, // Start offscreen to the left
+    x: "-100vw", // Start offscreen to the left
     opacity: 0,
   },
-  visible: {
-    x: 0, // Slide in to the center of the viewport
+
+  visible: (custom) => ({
+    x: 0,
     opacity: 1,
-    transition: {
-      duration: 0.5, // Adjust the duration as needed
-    },
+    transition: { delay: custom * 0.8, duration: 0.8 },
+  }),
+  exit: {
+    x: "100vw",
+    opacity: 0,
+    transition: { duration: 1 },
   },
 };

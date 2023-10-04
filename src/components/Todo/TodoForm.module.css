@@ -53,6 +53,11 @@
   font: inherit;
   color: white;
 }
+.error {
+  color: #d41515;
+  font-size: 0.9rem;
+  text-align: left;
+}
 
 /* @media (min-width: 768px) {
   .control {

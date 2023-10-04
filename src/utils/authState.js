@@ -8,10 +8,10 @@ export const useAuthState = () => {
       (event, session) => {
         if (event === "SIGNED_IN") {
           setIsUserLoggedIn(true);
-          console.log("SIGNED_IN");
+
         } else if (event === "SIGNED_OUT") {
           setIsUserLoggedIn(false);
-          console.log("SIGNED_OUT");
+         
         }
       }
     );

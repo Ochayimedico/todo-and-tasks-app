@@ -31,3 +31,18 @@ export const validatePassword = (password) => {
 
   return "";
 };
+export const validateTaskInput = (task) => {
+  if (task.trim().length === 0) {
+    return "Input field cannot be empty!";
+  }
+};
+export const validateTodoInput = (todo) => {
+  if (todo.trim().length === 0) {
+    return "Input field cannot be empty!";
+  }
+};
+export const validateTodoTitleInput = (todoTitle) => {
+  if (todoTitle.trim().length === 0) {
+    return "Input field cannot be empty!";
+  }
+};

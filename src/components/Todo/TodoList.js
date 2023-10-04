@@ -31,23 +31,23 @@ const TodoList = ({ todos, isFetchingTodos }) => {
         ) : (
           <ul className={styles.todoList}>
             <AnimatePresence>
-              {todos.map((list, index) => {
+              {todos.map((list, i) => {
                 return (
                   <motion.li
                     variants={listItemVariants}
                     initial="hidden"
                     animate="visible"
-                    exit="hidden"
-                    custom={index * 0.3}
+                    custom={i}
+                    exit="exit"
                     key={list.id}
                   >
                     <Card>
                       <div className={styles.listContent}>
-                        <div>
+                        <div className={styles.textContent}>
                           <h4>{list.todo_title}</h4>
                           <p>{list.todo}</p>
                         </div>
-                        <div>
+                        <div className={styles.button}>
                           <button
                             type="button"
                             onClick={() => onClickHandler(list.id)}

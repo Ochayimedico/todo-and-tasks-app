@@ -50,4 +50,9 @@
 .error {
   color: #d41515;
   font-size: 0.9rem;
+  text-align: left;
+}
+.addingTask {
+  font: inherit;
+  color: white;
 }

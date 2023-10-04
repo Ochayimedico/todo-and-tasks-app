@@ -1,57 +1,49 @@
 import React, { useRef, useState } from "react";
-// import { supabase } from "../../utils/supabase";
-
-import { ref, push, set } from "firebase/database";
-import "../../utils/firebaseConfig";
-import { database } from "../../utils/firebaseConfig";
+import { supabase } from "../../utils/supabase";
+import { motion } from "framer-motion";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
 import styles from "./TaskForm.module.css";
+import { validateTaskInput } from "../../utils/validation";
+import { loadingVariants } from "../../utils/animationVariants";
 
-const TaskForm = (props) => {
+const TaskForm = ({ onAddTask }) => {
   const taskRef = useRef();
-  const [isInputInvalid, setIsInputInvalid] = useState(false);
-
-  const submitFormHandler = (e) => {
-    e.preventDefault();
-  };
-
+  const [invalidInput, setInvalidInput] = useState("");
+  const [isAddingTask, setIsAddingTask] = useState(false);
   /**
    * Handles adding a task.
    */
-  const addTaskHandler = () => {
+  const addTaskHandler = async () => {
+    setIsAddingTask(true);
     const taskContent = taskRef.current.value;
-
-    if (taskContent.trim().length === 0) {
-      setIsInputInvalid(true);
+    const emptyTaskInput = validateTaskInput(taskContent);
+    if (emptyTaskInput) {
+      setInvalidInput(emptyTaskInput);
+      setIsAddingTask(false);
       return;
     } else {
-      setIsInputInvalid(false);
+      try {
+        await supabase
+          .from("tasks")
+          .insert([{ task: taskContent }])
+          .select();
+      } catch (error) {
+        console.error(error);
+      }
+      setInvalidInput("");
+      setIsAddingTask(false);
+      taskRef.current.value = "";
     }
-    const tasksListRef = ref(database, "tasksList");
-    const newTaskRef = push(tasksListRef);
-    if (isInputInvalid) {
-      set(newTaskRef, {
-        task: taskContent,
-      })
-        .then(() => {
-          alert("task saved successfully");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-    props.onAddTask(taskContent);
-    taskRef.current.value = "";
   };
   const changeHandler = () => {
-    setIsInputInvalid(false);
+    setInvalidInput("");
   };
   return (
     <Card>
-      <form onSubmit={submitFormHandler}>
+      <form>
         <div className={styles.control}>
-          <label htmlFor="task">Add Task</label>
+          <label htmlFor="task">Add task</label>
           <textarea
             cols="1"
             rows="4"
@@ -60,13 +52,24 @@ const TaskForm = (props) => {
             ref={taskRef}
             onChange={changeHandler}
           ></textarea>
-          {isInputInvalid && (
-            <p className={styles.error}>Input field is empty🤨🤔 </p>
-          )}
-        </div>
 
+          <p className={styles.error}>{invalidInput}</p>
+        </div>
         <div className={styles.actions}>
-          <Button onAddHandler={addTaskHandler}>Add Task</Button>
+          <Button onAddHandler={addTaskHandler}>
+            {isAddingTask ? (
+              <motion.span
+                variants={loadingVariants}
+                initial="hidden"
+                animate="visible"
+                className={styles.addingTask}
+              >
+                Adding task...
+              </motion.span>
+            ) : (
+              "Add Task"
+            )}
+          </Button>
         </div>
       </form>
     </Card>

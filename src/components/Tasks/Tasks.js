@@ -1,20 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
+import { supabase } from "../../utils/supabase";
 import styles from "./Tasks.module.css";
 import { motion } from "framer-motion";
 import { linksVariants } from "../../utils/animationVariants";
-const Tasks = () => {
-  const [task, setTask] = useState([]);
 
-  const addTaskHandler = (taskContent) => {
-    setTask((prevTasks) => {
-      return [
-        ...prevTasks,
-        { id: Math.random().toString(), task: taskContent },
-      ];
-    });
-  };
+const Tasks = () => {
+  const [tasks, setTasks] = useState([]);
+  const [isFetchingTasks, setIsFetchingTasks] = useState(false);
+  useEffect(() => {
+    setIsFetchingTasks(true);
+    // Function to fetch the initial list of tasks
+    const fetchTasks = async () => {
+      try {
+        let { data: tasks, error } = await supabase
+          .from("tasks")
+          .select("id, task");
+        if (tasks) {
+          setIsFetchingTasks(false);
+          setTasks(tasks);
+        } else if (error) {
+          console.error("error loading tasks", error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTasks();
+    // Subscribe to real-time updates for the "tasks" table
+    const tasksSubscription = supabase
+      .channel("any")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "tasks" },
+        (payload) => {
+          if (payload.eventType === "INSERT") {
+            // Handle new task insertion
+            setTasks((prevTasks) => [...prevTasks, payload.new]);
+          } else if (payload.eventType === "DELETE") {
+            // Handle task deletion
+            setTasks((prevTasks) =>
+              prevTasks.filter((task) => task.id !== payload.old.id)
+            );
+          }
+          console.log(payload);
+        }
+      )
+      .subscribe();
+    return async () => {
+      await tasksSubscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <motion.div
@@ -23,8 +60,8 @@ const Tasks = () => {
       animate="visible"
       className={styles.tasksContent}
     >
-      <TaskForm onAddTask={addTaskHandler} />
-      <TaskList tasks={task} />
+      <TaskForm />
+      <TaskList tasks={tasks} isFetchingTasks={isFetchingTasks} />
     </motion.div>
   );
 };
