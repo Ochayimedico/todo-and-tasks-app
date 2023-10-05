@@ -5,26 +5,31 @@ import Card from "../UI/Card";
 import styles from "./TodoForm.module.css";
 import { supabase } from "../../utils/supabase";
 import { loadingVariants } from "../../utils/animationVariants";
+import {
+  validateTodoInput,
+  validateTodoTitleInput,
+} from "../../utils/validation";
 
-const TodoForm = ({ onAddTodo }) => {
+const TodoForm = () => {
   const titleRef = useRef();
   const todoRef = useRef();
   const [isAddingTodo, setIsAddingTodo] = useState(false);
-  const [isInputInvalid, setIsInputInvalid] = useState(false);
+  const [todoError, setTodoError] = useState("");
+  const [todoTitleError, setTodoTitleError] = useState("");
   const addTodoHandler = async () => {
     const titleContent = titleRef.current.value;
     const todoContent = todoRef.current.value;
-    setIsAddingTodo(true);
-    if (titleContent.trim() === "") {
-      setIsInputInvalid(true);
-      setIsAddingTodo(false);
-      return;
-    } else if (todoContent.trim() === "") {
-      setIsInputInvalid(true);
+    const todoTitleInputError = validateTodoTitleInput(titleContent);
+    const todoInputError = validateTodoInput(todoContent);
+
+    if (todoTitleInputError || todoInputError) {
+      setTodoError(todoInputError);
+      setTodoTitleError(todoTitleInputError);
       setIsAddingTodo(false);
       return;
     } else {
-      setIsInputInvalid(false);
+      setIsAddingTodo(true);
+
       try {
         await supabase
           .from("todos")
@@ -39,9 +44,14 @@ const TodoForm = ({ onAddTodo }) => {
 
     titleRef.current.value = "";
     todoRef.current.value = "";
+    setTodoError("");
+    setTodoTitleError("");
   };
-  const changeHandler = () => {
-    setIsInputInvalid(false);
+  const titleChangeHandler = () => {
+    setTodoTitleError("");
+  };
+  const todoChangeHandler = () => {
+    setTodoError("");
   };
   return (
     <Card>
@@ -53,11 +63,9 @@ const TodoForm = ({ onAddTodo }) => {
             type="text"
             id="title"
             ref={titleRef}
-            onChange={changeHandler}
+            onChange={titleChangeHandler}
           />
-          {isInputInvalid && (
-            <p className={styles.error}>Input field is empty </p>
-          )}
+          <p className={styles.error}>{todoTitleError}</p>
         </div>
         <div className={styles.control}>
           <label htmlFor="todo">Add todo</label>
@@ -67,11 +75,9 @@ const TodoForm = ({ onAddTodo }) => {
             type="text"
             id="todo"
             ref={todoRef}
-            onChange={changeHandler}
+            onChange={todoChangeHandler}
           ></textarea>
-          {isInputInvalid && (
-            <p className={styles.error}>Input field is empty </p>
-          )}
+          <p className={styles.error}>{todoError}</p>
         </div>
         <div className={styles.actions}>
           <Button onAddHandler={addTodoHandler}>

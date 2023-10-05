@@ -19,7 +19,7 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
 
   return (
     <section>
-      <h2 className={styles.h2}>Tasks</h2>
+      <h2 className={styles.h2}>Tasks:</h2>
       {isFetchingTasks ? (
         <motion.h2
           variants={loadingVariants}

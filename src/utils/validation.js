@@ -28,21 +28,37 @@ export const validatePassword = (password) => {
   } else if (!passwordRegex.test(password.trim())) {
     return "Password should contain at least: 6 characters, an uppercase letter, a lowercase letter, and a digit";
   }
-
   return "";
 };
+export const validateLoginEmail = (email) => {
+  if (email.trim().length === 0) {
+    return "Please fill in your email address!";
+  }
+  return "";
+};
+
+export const validateLoginPassword = (password) => {
+  if (password.trim().length === 0) {
+    return "Please fill in your password!";
+  }
+  return "";
+};
+
 export const validateTaskInput = (task) => {
   if (task.trim().length === 0) {
     return "Input field cannot be empty!";
   }
+  return "";
 };
 export const validateTodoInput = (todo) => {
   if (todo.trim().length === 0) {
     return "Input field cannot be empty!";
   }
+  return "";
 };
 export const validateTodoTitleInput = (todoTitle) => {
   if (todoTitle.trim().length === 0) {
     return "Input field cannot be empty!";
   }
+  return "";
 };

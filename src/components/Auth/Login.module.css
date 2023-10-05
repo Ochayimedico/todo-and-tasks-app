@@ -53,3 +53,10 @@
   font: inherit;
   color: white;
 }
+.error {
+  color: #d41515;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+  margin: 0;
+}

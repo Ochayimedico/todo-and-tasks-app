@@ -111,7 +111,7 @@ const Register = () => {
               ref={usernameRef}
               onChange={usernameChangeHandler}
             />
-            <span>{usernameError}</span>
+            <p className={styles.error}>{usernameError}</p>
           </div>
           <div className={styles.control}>
             <label htmlFor="email">Email Address</label>
@@ -121,7 +121,7 @@ const Register = () => {
               ref={emailRef}
               onChange={emailChangeHandler}
             />
-            <span>{emailError}</span>
+            <p className={styles.error}>{emailError}</p>
           </div>
           <div className={styles.control}>
             <label htmlFor="password">Password</label>
@@ -131,7 +131,7 @@ const Register = () => {
               ref={passwordRef}
               onChange={passwordChangeHandler}
             />
-            <span>{passwordError}</span>
+            <p className={styles.error}>{passwordError}</p>
           </div>
 
           <div>

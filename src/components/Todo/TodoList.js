@@ -18,7 +18,7 @@ const TodoList = ({ todos, isFetchingTodos }) => {
   return (
     <>
       <section>
-        <h2 className={styles.h2}>Todos</h2>
+        <h2 className={styles.h2}>Todos:</h2>
         {isFetchingTodos ? (
           <motion.h2
             variants={loadingVariants}

@@ -38,7 +38,7 @@ const Todo = () => {
         (payload) => {
           if (payload.eventType === "INSERT") {
             // Handle new todo insertion
-            setTodos((prevTodos) => [...prevTodos, payload.new]);
+            setTodos((prevTodos) => [payload.new, ...prevTodos]);
           } else if (payload.eventType === "DELETE") {
             // Handle todo deletion
             setTodos((prevTasks) =>
