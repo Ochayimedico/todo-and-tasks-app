@@ -7,10 +7,12 @@ import styles from "./TaskForm.module.css";
 import { validateTaskInput } from "../../utils/validation";
 import { loadingVariants } from "../../utils/animationVariants";
 
-const TaskForm = ({ onAddTask }) => {
+
+const TaskForm = () => {
   const taskRef = useRef();
   const [invalidInput, setInvalidInput] = useState("");
-  const [isAddingTask, setIsAddingTask] = useState(false);
+  const [isAddingTask, setIsAddingTask] = useState(false)
+ 
   /**
    * Handles adding a task.
    */
@@ -28,6 +30,7 @@ const TaskForm = ({ onAddTask }) => {
           .from("tasks")
           .insert([{ task: taskContent }])
           .select();
+
       } catch (error) {
         console.error(error);
       }

@@ -48,6 +48,7 @@ const Login = () => {
         setIsLoading(false);
         console.log("logged in successfully");
         navigate("/");
+        console.log(data);
       }
       if (!data.user) {
         setIsLoading(false);
@@ -56,9 +57,11 @@ const Login = () => {
         return;
       } else if (error) {
         console.error("Error, could not log in.", error);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("An error occurred:", error);
+      setIsLoading(false);
     }
     emailRef.current.value = "";
     passwordRef.current.value = "";

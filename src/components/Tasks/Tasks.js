@@ -44,7 +44,6 @@ const Tasks = () => {
               prevTasks.filter((task) => task.id !== payload.old.id)
             );
           }
-          console.log(payload);
         }
       )
       .subscribe();

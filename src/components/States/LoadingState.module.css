@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(240, 240, 240, 0.5);
+  /* background-color: rgba(240, 240, 240, 0.5); */
 }
 
 .loader {

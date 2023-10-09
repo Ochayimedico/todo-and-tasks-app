@@ -49,15 +49,28 @@ const Register = () => {
     setIsLoading(true);
     try {
       let { data, error } = await supabase.auth.signUp({
-        username: usernameInput,
         email: emailInput,
         password: passwordInput,
+        options: {
+          data: {
+            username: usernameInput,
+          },
+        },
       });
       if (data) {
         setIsLoading(false);
-        setIsUserDataSent(true);
+
         navigate("/confirmation-page");
-        console.log("Account successfully created!", data.user.id);
+
+        // Now insert a record into your custom 'users' table
+        //   await supabase.from("users").upsert([
+        //     {
+        //       username: usernameInput,
+        //       email: emailInput,
+        //       password: passwordInput,
+
+        //     },
+        //   ]);
       } else if (error) {
         console.log("Account could not be created, try again.");
       }

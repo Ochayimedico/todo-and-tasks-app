@@ -1,3 +1,10 @@
-main {
+.main {
   margin: 5rem auto;
+  width: 90%;
+}
+@media (min-width: 800px) {
+  .main {
+    width: 65%;
+    margin: 6rem auto;
+  }
 }

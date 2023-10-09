@@ -36,6 +36,14 @@ export const homeVariants = {
       when: "beforeChildren",
     },
   },
+  exit: {
+    x: "100vw",
+    opacity: 0,
+    transition: {
+      ease: "easeOut",
+      duration: 1,
+    },
+  },
 };
 export const buttonVariants = {
   hidden: {
@@ -79,6 +87,11 @@ export const linksVariants = {
       when: "beforeChildren",
     },
   },
+  exit: {
+    opacity: 0,
+    ease: "easeInOut",
+    x: "100vw",
+  },
 };
 export const loadingVariants = {
   hidden: {
@@ -96,7 +109,7 @@ export const loadingVariants = {
 
 export const listItemVariants = {
   hidden: {
-    x: "-100vw", // Start offscreen to the left
+    x: "-100vw",
     opacity: 0,
   },
 
@@ -108,6 +121,21 @@ export const listItemVariants = {
   exit: {
     x: "100vw",
     opacity: 0,
-    transition: { duration: 1 },
+    transition: { duration: 1, ease: "easeOut" },
+  },
+};
+export const exitRoutesVariants = {
+  // hidden: {
+  //   x: 1, // Start offscreen to the left
+  //   opacity: 1,
+  // },
+  // visible: {
+  //   x: 0,
+  //   opacity: 0,
+  // },
+  exit: {
+    x: "100vw",
+    opacity: 0,
+    transition: { duration: 1, ease: "easeOut" },
   },
 };

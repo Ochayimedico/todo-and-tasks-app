@@ -4,9 +4,12 @@ import { useAuthState } from "../../utils/authState";
 import { supabase } from "../../utils/supabase";
 import { motion } from "framer-motion";
 import { navVariants } from "../../utils/animationVariants";
+// import { useEffect, useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({ metadata }) => {
   const { isUserLoggedIn } = useAuthState();
+  // const [userMetadata, setUserMetadata] = useState(null);
+
   const logoutHandler = async () => {
     try {
       await supabase.auth.signOut();
@@ -14,6 +17,17 @@ const Navbar = () => {
       console.log("logout error", error);
     }
   };
+  // useEffect(() => {
+  //   const fetchUserMetadata = async () => {
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     let metadata = user.user_metadata;
+
+  //     setUserMetadata(metadata);
+  //   };
+  //   fetchUserMetadata();
+  // }, []);
   return (
     <header className={styles.header}>
       <motion.nav
@@ -67,6 +81,10 @@ const Navbar = () => {
                 Register
               </NavLink>
             </li>
+          )}
+
+          {isUserLoggedIn && (
+            <div className={styles.username}>Hi, {metadata}</div>
           )}
           {isUserLoggedIn && (
             <li onClick={logoutHandler} className={styles["logout-button"]}>
