@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../UI/Card";
 import styles from "./TaskList.module.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,11 +9,17 @@ import {
 } from "../../utils/animationVariants";
 
 const TaskList = ({ isFetchingTasks, tasks }) => {
+  const [taskDeletingState, setTaskDeletingState] = useState({});
+
   const deleteHandler = async (id) => {
+    setTaskDeletingState({ ...taskDeletingState, [id]: true });
+
     try {
       await supabase.from("tasks").delete().eq("id", id);
     } catch (error) {
       console.error(error);
+    } finally {
+      setTaskDeletingState({ ...taskDeletingState, [id]: false });
     }
   };
 
@@ -33,6 +39,8 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
         <ul className={styles.taskList}>
           <AnimatePresence>
             {tasks.map((task, i) => {
+              const isDeleting = taskDeletingState[task.id] || false;
+
               return (
                 <motion.li
                   variants={listItemVariants}
@@ -49,8 +57,9 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
                         <button
                           type="button"
                           onClick={() => deleteHandler(task.id)}
+                          disabled={isDeleting}
                         >
-                          delete
+                          {isDeleting ? "Deleting..." : "Delete"}
                         </button>
                       </div>
                     </div>
@@ -64,4 +73,5 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
     </section>
   );
 };
+
 export default TaskList;

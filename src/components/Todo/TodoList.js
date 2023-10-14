@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Card from "../UI/Card";
 import styles from "./TodoList.module.css";
@@ -7,12 +7,18 @@ import {
   loadingVariants,
   listItemVariants,
 } from "../../utils/animationVariants";
+
 const TodoList = ({ todos, isFetchingTodos }) => {
+  const [todoDeletingState, setTodoDeletingState] = useState({});
+
   const onClickHandler = async (id) => {
+    setTodoDeletingState({ ...todoDeletingState, [id]: true });
     try {
       await supabase.from("todos").delete().eq("id", id);
     } catch (error) {
       console.error(error);
+    } finally {
+      setTodoDeletingState({ ...todoDeletingState, [id]: false });
     }
   };
   return (
@@ -32,6 +38,7 @@ const TodoList = ({ todos, isFetchingTodos }) => {
           <ul className={styles.todoList}>
             <AnimatePresence>
               {todos.map((list, i) => {
+                const isDeleting = todoDeletingState[list.id] || false;
                 return (
                   <motion.li
                     variants={listItemVariants}
@@ -51,8 +58,9 @@ const TodoList = ({ todos, isFetchingTodos }) => {
                           <button
                             type="button"
                             onClick={() => onClickHandler(list.id)}
+                            disabled={isDeleting}
                           >
-                            delete
+                            {isDeleting ? "deleting..." : "delete"}
                           </button>
                         </div>
                       </div>
