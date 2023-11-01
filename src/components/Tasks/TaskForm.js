@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { supabase } from "../../utils/supabase";
 import { motion } from "framer-motion";
 import Button from "../UI/Button";
@@ -6,13 +6,14 @@ import Card from "../UI/Card";
 import styles from "./TaskForm.module.css";
 import { validateTaskInput } from "../../utils/validation";
 import { loadingVariants } from "../../utils/animationVariants";
-
+import { UserContext } from "../../utils/userContext";
 
 const TaskForm = () => {
+  const { isUserLoggedIn } = useContext(UserContext);
+
   const taskRef = useRef();
   const [invalidInput, setInvalidInput] = useState("");
-  const [isAddingTask, setIsAddingTask] = useState(false)
- 
+  const [isAddingTask, setIsAddingTask] = useState(false);
   /**
    * Handles adding a task.
    */
@@ -30,7 +31,6 @@ const TaskForm = () => {
           .from("tasks")
           .insert([{ task: taskContent }])
           .select();
-
       } catch (error) {
         console.error(error);
       }
@@ -48,6 +48,7 @@ const TaskForm = () => {
         <div className={styles.control}>
           <label htmlFor="task">Add task</label>
           <textarea
+            disabled={!isUserLoggedIn}
             cols="1"
             rows="4"
             type="text"
@@ -70,7 +71,7 @@ const TaskForm = () => {
                 Adding task...
               </motion.span>
             ) : (
-              "Add Task"
+              <span>Add Task</span>
             )}
           </Button>
         </div>

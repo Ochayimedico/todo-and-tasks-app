@@ -1,33 +1,25 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import { useAuthState } from "../../utils/authState";
+
 import { supabase } from "../../utils/supabase";
 import { motion } from "framer-motion";
 import { navVariants } from "../../utils/animationVariants";
-// import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../utils/userContext";
 
-const Navbar = ({ metadata }) => {
-  const { isUserLoggedIn } = useAuthState();
-  // const [userMetadata, setUserMetadata] = useState(null);
+const Navbar = () => {
+  const navigate = useNavigate();
+  const { username, userMetadata, isUserLoggedIn } = useContext(UserContext);
 
   const logoutHandler = async () => {
     try {
       await supabase.auth.signOut();
+      navigate("/");
     } catch (error) {
       console.log("logout error", error);
     }
   };
-  // useEffect(() => {
-  //   const fetchUserMetadata = async () => {
-  //     const {
-  //       data: { user },
-  //     } = await supabase.auth.getUser();
-  //     let metadata = user.user_metadata;
-
-  //     setUserMetadata(metadata);
-  //   };
-  //   fetchUserMetadata();
-  // }, []);
+  userMetadata();
   return (
     <header className={styles.header}>
       <motion.nav
@@ -83,8 +75,8 @@ const Navbar = ({ metadata }) => {
             </li>
           )}
 
-          {isUserLoggedIn && (
-            <div className={styles.username}>Hi, {metadata}</div>
+          {isUserLoggedIn && username && (
+            <div className={styles.username}>Hi, {username} </div>
           )}
           {isUserLoggedIn && (
             <li onClick={logoutHandler} className={styles["logout-button"]}>

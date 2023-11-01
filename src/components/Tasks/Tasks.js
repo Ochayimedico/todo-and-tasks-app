@@ -17,6 +17,7 @@ const Tasks = () => {
         let { data: tasks, error } = await supabase
           .from("tasks")
           .select("id, task");
+
         if (tasks) {
           setIsFetchingTasks(false);
           setTasks(tasks);
@@ -53,15 +54,17 @@ const Tasks = () => {
   }, []);
 
   return (
-    <motion.div
-      variants={linksVariants}
-      initial="hidden"
-      animate="visible"
-      className={styles.tasksContent}
-    >
-      <TaskForm />
-      <TaskList tasks={tasks} isFetchingTasks={isFetchingTasks} />
-    </motion.div>
+    <div className={styles.container}>
+      <motion.div
+        variants={linksVariants}
+        initial="hidden"
+        animate="visible"
+        className={styles.tasksContent}
+      >
+        <TaskForm />
+        <TaskList tasks={tasks} isFetchingTasks={isFetchingTasks} />
+      </motion.div>
+    </div>
   );
 };
 export default Tasks;

@@ -93,11 +93,12 @@ li.logout-button:active {
 }
 div.username {
   /* font-weight: 600; */
-  width: 4.5rem;
+  width: 5rem;
   font-size: 0.9rem;
   color: #ccc;
   text-align: center;
   margin-right: 0.25rem;
+  display: flex;
 }
 
 @media (max-width: 800px) {
@@ -133,6 +134,9 @@ div.username {
   }
   h3 {
     font-size: 1rem;
+  }
+  div.username {
+    font-size: 0.75rem;
   }
 }
 @media (max-width: 425px) {
@@ -175,6 +179,9 @@ div.username {
   h3 {
     font-size: 0.8rem;
   }
+  div.username {
+    font-size: 0.5rem;
+  }
 }
 @media (max-width: 320px) {
   .header {
@@ -208,5 +215,8 @@ div.username {
 
   h3 {
     font-size: 0.6rem;
+  }
+  div.username {
+    font-size: 0.5rem;
   }
 }

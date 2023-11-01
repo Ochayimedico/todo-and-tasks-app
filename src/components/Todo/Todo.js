@@ -5,12 +5,10 @@ import TodoList from "./TodoList";
 import styles from "./Todo.module.css";
 import { motion } from "framer-motion";
 import { linksVariants } from "../../utils/animationVariants";
-// import { useAuthState } from "../../utils/authState";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
   const [isFetchingTodos, setIsFetchingTodos] = useState(false);
-  // const { session, isUserLoggedIn } = useAuthState();
   useEffect(() => {
     // Fetching Initial Todos
     setIsFetchingTodos(true);
@@ -55,18 +53,20 @@ const Todo = () => {
   }, []);
 
   return (
-    <motion.div
-      variants={linksVariants}
-      initial="hidden"
-      animate="visible"
-      className={styles.todoContent}
-    >
-      <div>
-        <TodoForm />
-        <TodoList todos={todos} isFetchingTodos={isFetchingTodos} />
-      </div>
-      )
-    </motion.div>
+    <div className={styles.container}>
+      <motion.div
+        variants={linksVariants}
+        initial="hidden"
+        animate="visible"
+        className={styles.todoContent}
+      >
+        <div>
+          <TodoForm />
+          <TodoList todos={todos} isFetchingTodos={isFetchingTodos} />
+        </div>
+        )
+      </motion.div>
+    </div>
   );
 };
 export default Todo;

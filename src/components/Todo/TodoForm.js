@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
@@ -9,8 +9,10 @@ import {
   validateTodoInput,
   validateTodoTitleInput,
 } from "../../utils/validation";
+import { UserContext } from "../../utils/userContext";
 
 const TodoForm = () => {
+  const { isUserLoggedIn } = useContext(UserContext);
   const titleRef = useRef();
   const todoRef = useRef();
   const [isAddingTodo, setIsAddingTodo] = useState(false);
@@ -60,6 +62,7 @@ const TodoForm = () => {
         <div className={styles.control}>
           <label htmlFor="title">Add title</label>
           <input
+            disabled={!isUserLoggedIn}
             type="text"
             id="title"
             ref={titleRef}
@@ -70,6 +73,7 @@ const TodoForm = () => {
         <div className={styles.control}>
           <label htmlFor="todo">Add todo</label>
           <textarea
+            disabled={!isUserLoggedIn}
             cols="1"
             rows="3"
             type="text"
@@ -91,7 +95,7 @@ const TodoForm = () => {
                 Adding Todo...
               </motion.span>
             ) : (
-              "Add Todo"
+              <span>Add Todo</span>
             )}
           </Button>
         </div>

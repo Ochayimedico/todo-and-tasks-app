@@ -1,18 +1,17 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { supabase } from "../../utils/supabase";
 import Card from "../UI/Card";
 import AuthButton from "../UI/AuthButton";
 import styles from "./Register.module.css";
-import LoadingState from "../States/LoadingState";
-import CreationSuccess from "../States/CreationSuccess";
 import { useNavigate } from "react-router-dom";
 import {
   validateUsername,
   validateEmail,
   validatePassword,
 } from "../../utils/validation";
-import { linksVariants } from "../../utils/animationVariants";
+import { linksVariants, loadingVariants } from "../../utils/animationVariants";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ const Register = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isUserDataSent, setIsUserDataSent] = useState(false);
 
   const usernameRef = useRef();
   const emailRef = useRef();
@@ -59,18 +57,7 @@ const Register = () => {
       });
       if (data) {
         setIsLoading(false);
-
         navigate("/confirmation-page");
-
-        // Now insert a record into your custom 'users' table
-        //   await supabase.from("users").upsert([
-        //     {
-        //       username: usernameInput,
-        //       email: emailInput,
-        //       password: passwordInput,
-
-        //     },
-        //   ]);
       } else if (error) {
         console.log("Account could not be created, try again.");
       }
@@ -94,28 +81,16 @@ const Register = () => {
   const passwordChangeHandler = () => {
     setPasswordError("");
   };
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      if (isUserDataSent) {
-        setIsUserDataSent(false);
-      }
-    }, 5000);
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [isUserDataSent]);
   return (
     <motion.div
       variants={linksVariants}
       initial="hidden"
       animate="visible"
-      className={styles.width}
+      className={styles.container}
     >
-      {isLoading && <LoadingState />}
-      {isUserDataSent && <CreationSuccess />}
       <Card>
-        <form onSubmit={submitHandler}>
-          <h2 className={styles.title}>Create an Account</h2>
+        <form onSubmit={submitHandler} className={styles.form}>
+          <h2 className={styles.title}>Register an Account</h2>
           <div className={styles.control}>
             <label htmlFor="username">Username</label>
             <input
@@ -148,10 +123,29 @@ const Register = () => {
           </div>
 
           <div>
-            <AuthButton onAddHandler={registerHandler}>Register</AuthButton>
+            <AuthButton onAddHandler={registerHandler}>
+              {isLoading ? (
+                <motion.span
+                  variants={loadingVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className={styles.registering}
+                >
+                  Registering...
+                </motion.span>
+              ) : (
+                "Register"
+              )}
+            </AuthButton>
           </div>
         </form>
       </Card>
+      <div className={styles.link}>
+        Already have an account?{" "}
+        <Link to="/login" className={styles.authLinks}>
+          Click to login your account
+        </Link>
+      </div>
     </motion.div>
   );
 };

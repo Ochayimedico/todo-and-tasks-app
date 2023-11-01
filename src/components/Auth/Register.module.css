@@ -8,8 +8,8 @@
   text-align: left;
   margin: 0;
 }
-.width {
-  width: 60%;
+.container {
+  width: 80%;
   margin: 10% auto;
 }
 .control {
@@ -53,4 +53,48 @@
 .actions {
   text-align: center;
   background-color: #0077b6;
+}
+.registering {
+  font: inherit;
+  color: white;
+}
+.link {
+  color: #fff;
+  font-weight: 600;
+  margin-top: 2rem;
+}
+.authLinks {
+  text-decoration: underline;
+  color: #0077b6;
+}
+/* @media (max-width: 475px) {
+  .form {
+    font-size: 0.85rem;
+  }
+  .link {
+    font-size: 0.85rem;
+  }
+} */
+@media (min-width: 500px) {
+  .container {
+    margin-top: 5%;
+    width: 60%;
+  }
+}
+@media (min-width: 600px) {
+  .container {
+    margin-top: 8%;
+    width: 60%;
+  }
+}
+@media (min-width: 1000px) {
+  .container {
+    margin-top: 8%;
+    width: 50%;
+  }
+}
+@media (min-width: 2560px) {
+  .container {
+    margin-top: 5%;
+  }
 }

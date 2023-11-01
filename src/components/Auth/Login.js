@@ -9,7 +9,7 @@ import { loadingVariants, linksVariants } from "../../utils/animationVariants";
 import Card from "../UI/Card";
 import AuthButton from "../UI/AuthButton";
 import styles from "./Login.module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginError from "../States/LoginError";
 
 const Login = () => {
@@ -46,14 +46,12 @@ const Login = () => {
 
       if (data.user) {
         setIsLoading(false);
-        console.log("logged in successfully");
         navigate("/");
-        console.log(data);
       }
       if (!data.user) {
         setIsLoading(false);
         setLoginError(true);
-        console.log("user not authenticated");
+
         return;
       } else if (error) {
         console.error("Error, could not log in.", error);
@@ -62,11 +60,12 @@ const Login = () => {
     } catch (error) {
       console.error("An error occurred:", error);
       setIsLoading(false);
+    } finally {
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+      setEmailError("");
+      setPasswordError("");
     }
-    emailRef.current.value = "";
-    passwordRef.current.value = "";
-    setEmailError("");
-    setPasswordError("");
   };
   const emailChangeHandler = () => {
     setEmailError("");
@@ -82,7 +81,7 @@ const Login = () => {
       variants={linksVariants}
       initial="hidden"
       animate="visible"
-      className={styles.width}
+      className={styles.container}
     >
       {loginError && <LoginError />}
       <Card>
@@ -128,6 +127,12 @@ const Login = () => {
           </div>
         </form>
       </Card>
+      <div className={styles.link}>
+        New user?{" "}
+        <Link to="/register" className={styles.authLinks}>
+          Click to register an account
+        </Link>
+      </div>
     </motion.div>
   );
 };

@@ -58,3 +58,6 @@
   font: inherit;
   color: white;
 }
+span {
+  font-weight: 600;
+}
