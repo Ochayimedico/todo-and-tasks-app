@@ -34,7 +34,7 @@
   font-weight: 700;
   height: auto;
 }
-.listContent button {
+.deleteButton {
   background-color: #b00020;
   color: #fff;
   border-radius: 0.5rem;
@@ -48,7 +48,7 @@
   letter-spacing: 0.025em;
 }
 
-.listContent button:hover {
+.deleteButton:hover {
   background-color: #c21938;
   border: solid 2px #c21938;
 }
@@ -74,6 +74,30 @@
   margin: 0;
   color: #fff;
   font-size: 1rem;
+}
+.date_and_time {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin: 0;
+}
+i {
+  color: rgb(0, 0, 0, 0.7);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.buttonContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
 }
 @media (min-width: 800px) {
   /* section {

@@ -9,12 +9,13 @@ import {
   listItemVariants,
 } from "../../utils/animationVariants";
 import { UserContext } from "../../utils/userContext";
+import { dateAndTimeFormat } from "../../utils/dateFormat";
 
 const TodoList = ({ todos, isFetchingTodos }) => {
   const { isUserLoggedIn } = useContext(UserContext);
   const [todoDeletingState, setTodoDeletingState] = useState({});
 
-  const onClickHandler = async (id) => {
+  const deleteHandler = async (id) => {
     setTodoDeletingState({ ...todoDeletingState, [id]: true });
     try {
       await supabase.from("todos").delete().eq("id", id);
@@ -23,6 +24,7 @@ const TodoList = ({ todos, isFetchingTodos }) => {
       console.error(error);
     }
   };
+
   return (
     <div>
       {!isUserLoggedIn ? (
@@ -68,19 +70,27 @@ const TodoList = ({ todos, isFetchingTodos }) => {
                           key={list.id}
                         >
                           <Card>
-                            <div className={styles.listContent}>
-                              <div className={styles.textContent}>
-                                <h4>{list.todo_title}</h4>
-                                <p>{list.todo}</p>
+                            <div className={styles.container}>
+                              <div className={styles.content}>
+                                <div className={styles.textContent}>
+                                  <h4>{list.todo_title}</h4>
+                                  <p>{list.todo}</p>
+                                </div>{" "}
+                                <div className={styles.date_and_time}>
+                                  <i>{dateAndTimeFormat(list.created_at)}</i>
+                                </div>
                               </div>
-                              <div className={styles.button}>
-                                <button
-                                  disabled={isDeleting}
-                                  type="button"
-                                  onClick={() => onClickHandler(list.id)}
-                                >
-                                  {isDeleting ? "deleting..." : "delete"}
-                                </button>
+                              <div className={styles.buttonContent}>
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={() => deleteHandler(list.id)}
+                                    disabled={isDeleting}
+                                    className={styles.deleteButton}
+                                  >
+                                    {isDeleting ? "Deleting..." : "Delete"}
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </Card>

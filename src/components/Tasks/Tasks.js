@@ -16,7 +16,7 @@ const Tasks = () => {
       try {
         let { data: tasks, error } = await supabase
           .from("tasks")
-          .select("id, task");
+          .select("id, task, created_at");
 
         if (tasks) {
           setIsFetchingTasks(false);

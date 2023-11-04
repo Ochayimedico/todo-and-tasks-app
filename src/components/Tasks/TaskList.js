@@ -9,22 +9,22 @@ import {
   listItemVariants,
 } from "../../utils/animationVariants";
 import { UserContext } from "../../utils/userContext";
+import { dateAndTimeFormat } from "../../utils/dateFormat";
 
 const TaskList = ({ isFetchingTasks, tasks }) => {
   const { isUserLoggedIn } = useContext(UserContext);
   const [taskDeletingState, setTaskDeletingState] = useState({});
 
   const deleteHandler = async (id) => {
-    setTaskDeletingState({ ...taskDeletingState, [id]: true });
+    setTaskDeletingState((prevState) => ({ ...prevState, [id]: true }));
 
     try {
       await supabase.from("tasks").delete().eq("id", id);
-      setTaskDeletingState({ ...taskDeletingState, [id]: false });
+      setTaskDeletingState((prevState) => ({ ...prevState, [id]: false }));
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div>
       {!isUserLoggedIn ? (
@@ -43,7 +43,7 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
         <section>
           <h2 className={styles.h2}>Tasks:</h2>
           {tasks.length === 0 && !isFetchingTasks ? (
-            <h3 className={styles.noTasks}>No tasks available.</h3>
+            <h3 className={styles.noTasks}>No tasks available. Add a task.</h3>
           ) : (
             <div>
               {isFetchingTasks ? (
@@ -71,16 +71,24 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
                           key={task.id}
                         >
                           <Card>
-                            <div className={styles.listContent}>
-                              <p className={styles.text}>{task.task}</p>
-                              <div>
-                                <button
-                                  type="button"
-                                  onClick={() => deleteHandler(task.id)}
-                                  disabled={isDeleting}
-                                >
-                                  {isDeleting ? "Deleting..." : "Delete"}
-                                </button>
+                            <div className={styles.container}>
+                              <div className={styles.content}>
+                                <div className={styles.date_and_time}>
+                                  <i>{dateAndTimeFormat(task.created_at)}</i>
+                                </div>
+                                <p className={styles.text}>{task.task}</p>
+                              </div>
+                              <div className={styles.buttonContent}>
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={() => deleteHandler(task.id)}
+                                    disabled={isDeleting}
+                                    className={styles.deleteButton}
+                                  >
+                                    {isDeleting ? "Deleting..." : "Delete"}
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </Card>

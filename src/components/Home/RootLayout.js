@@ -7,8 +7,31 @@ import styles from "./RootLayout.module.css";
 import { motion } from "framer-motion";
 
 function RootLayout() {
+  /**
+   * Renders the layout component for the application.
+   * Sets up the user context and handles user authentication.
+   * Renders the navigation bar and the main content of the application.
+   */
   const [username, setUsername] = useState(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") {
+        setIsUserLoggedIn(true);
+      } else if (event === "SIGNED_OUT") {
+        setIsUserLoggedIn(false);
+      }
+    });
+
+    // Unsubscribe on cleanup
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
   const userMetadata = async () => {
     if (isUserLoggedIn) {
       try {
@@ -17,6 +40,17 @@ function RootLayout() {
         } = await supabase.auth.getUser();
         let { username } = user.user_metadata;
         if (username) {
+          // Extract and capitalize the first word
+          const words = username.split(" ");
+          if (words.length > 0) {
+            const firstWord = words[0];
+            username =
+              firstWord.charAt(0).toUpperCase() +
+              firstWord.slice(1).toLowerCase();
+          } else {
+            username = null;
+          }
+
           setUsername(username);
         } else {
           setUsername(null);
@@ -29,22 +63,9 @@ function RootLayout() {
       return;
     }
   };
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") {
-        setIsUserLoggedIn(true);
-      } else if (event === "SIGNED_OUT") {
-        setIsUserLoggedIn(false);
-      }
-    });
-    //Unsubscribe on cleanup
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, []);
+
   const ctxValue = { username, userMetadata, isUserLoggedIn };
+
   return (
     <UserContext.Provider value={ctxValue}>
       <Navbar />

@@ -16,7 +16,7 @@ const Todo = () => {
       try {
         let { data: todos, error } = await supabase
           .from("todos")
-          .select("id, todo_title, todo");
+          .select("id, todo_title, todo, created_at");
         if (todos) {
           setIsFetchingTodos(false);
           setTodos(todos);
@@ -40,8 +40,8 @@ const Todo = () => {
             setTodos((prevTodos) => [payload.new, ...prevTodos]);
           } else if (payload.eventType === "DELETE") {
             // Handle todo deletion
-            setTodos((prevTasks) =>
-              prevTasks.filter((todo) => todo.id !== payload.old.id)
+            setTodos((prevTodos) =>
+              prevTodos.filter((todo) => todo.id !== payload.old.id)
             );
           }
         }
