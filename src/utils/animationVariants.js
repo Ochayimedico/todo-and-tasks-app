@@ -124,18 +124,3 @@ export const listItemVariants = {
     transition: { duration: 1, ease: "easeOut" },
   },
 };
-// export const exitRoutesVariants = {
-//   // hidden: {
-//   //   x: 1, // Start offscreen to the left
-//   //   opacity: 1,
-//   // },
-//   // visible: {
-//   //   x: 0,
-//   //   opacity: 0,
-//   // },
-//   exit: {
-//     x: "100vw",
-//     opacity: 0,
-//     transition: { duration: 1, ease: "easeOut" },
-//   },
-// };

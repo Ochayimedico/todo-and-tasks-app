@@ -11,7 +11,7 @@ import {
 import { UserContext } from "../../utils/userContext";
 import { dateAndTimeFormat } from "../../utils/dateFormat";
 
-const TodoList = ({ todos, isFetchingTodos }) => {
+const TodoList = ({ todos, isFetchingTodos, setTodos }) => {
   const { isUserLoggedIn } = useContext(UserContext);
   const [todoDeletingState, setTodoDeletingState] = useState({});
 
@@ -20,6 +20,8 @@ const TodoList = ({ todos, isFetchingTodos }) => {
     try {
       await supabase.from("todos").delete().eq("id", id);
       setTodoDeletingState({ ...todoDeletingState, [id]: false });
+      const updatedTodos = todos.filter((todo) => todo.id !== id);
+      setTodos(updatedTodos);
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +64,7 @@ const TodoList = ({ todos, isFetchingTodos }) => {
                       const isDeleting = todoDeletingState[list.id] || false;
                       return (
                         <motion.li
+                          layout
                           variants={listItemVariants}
                           initial="hidden"
                           animate="visible"

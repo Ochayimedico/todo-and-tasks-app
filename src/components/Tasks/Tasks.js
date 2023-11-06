@@ -3,7 +3,7 @@ import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import { supabase } from "../../utils/supabase";
 import styles from "./Tasks.module.css";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { linksVariants } from "../../utils/animationVariants";
 
 const Tasks = () => {
@@ -22,13 +22,15 @@ const Tasks = () => {
           setIsFetchingTasks(false);
           setTasks(tasks);
         } else if (error) {
-          console.error("error loading tasks", error);
+          throw new Error("error loading tasks");
         }
       } catch (error) {
-        console.error(error);
+        throw new Error(error);
       }
     };
     fetchTasks();
+  }, []);
+  useEffect(() => {
     // Subscribe to real-time updates for the "tasks" table
     const tasksSubscription = supabase
       .channel("any")
@@ -39,11 +41,13 @@ const Tasks = () => {
           if (payload.eventType === "INSERT") {
             // Handle new task insertion
             setTasks((prevTasks) => [payload.new, ...prevTasks]);
+            console.log("insert payload:", payload);
           } else if (payload.eventType === "DELETE") {
             // Handle task deletion
             setTasks((prevTasks) =>
               prevTasks.filter((task) => task.id !== payload.old.id)
             );
+            console.log("delete payload:", payload);
           }
         }
       )
@@ -52,19 +56,25 @@ const Tasks = () => {
       await tasksSubscription.unsubscribe();
     };
   }, []);
-
   return (
-    <div className={styles.container}>
-      <motion.div
-        variants={linksVariants}
-        initial="hidden"
-        animate="visible"
-        className={styles.tasksContent}
-      >
-        <TaskForm />
-        <TaskList tasks={tasks} isFetchingTasks={isFetchingTasks} />
+    <AnimatePresence>
+      <motion.div className={styles.container}>
+        <motion.div
+          variants={linksVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className={styles.tasksContent}
+        >
+          <TaskForm />
+          <TaskList
+            tasks={tasks}
+            isFetchingTasks={isFetchingTasks}
+            setTasks={setTasks}
+          />
+        </motion.div>
       </motion.div>
-    </div>
+    </AnimatePresence>
   );
 };
 export default Tasks;

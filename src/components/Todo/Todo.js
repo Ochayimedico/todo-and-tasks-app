@@ -62,7 +62,11 @@ const Todo = () => {
       >
         <div>
           <TodoForm />
-          <TodoList todos={todos} isFetchingTodos={isFetchingTodos} />
+          <TodoList
+            todos={todos}
+            isFetchingTodos={isFetchingTodos}
+            setTodos={setTodos}
+          />
         </div>
         )
       </motion.div>

@@ -11,7 +11,7 @@ import {
 import { UserContext } from "../../utils/userContext";
 import { dateAndTimeFormat } from "../../utils/dateFormat";
 
-const TaskList = ({ isFetchingTasks, tasks }) => {
+const TaskList = ({ isFetchingTasks, tasks, setTasks }) => {
   const { isUserLoggedIn } = useContext(UserContext);
   const [taskDeletingState, setTaskDeletingState] = useState({});
 
@@ -21,10 +21,13 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
     try {
       await supabase.from("tasks").delete().eq("id", id);
       setTaskDeletingState((prevState) => ({ ...prevState, [id]: false }));
+      const updatedTasks = tasks.filter((task) => task.id !== id);
+      setTasks(updatedTasks);
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <div>
       {!isUserLoggedIn ? (
@@ -56,13 +59,13 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
                   Fetching your tasks...
                 </motion.h3>
               ) : (
-                <ul className={styles.taskList}>
+                <ul className={styles.tasksList}>
                   <AnimatePresence>
                     {tasks.map((task, i) => {
                       const isDeleting = taskDeletingState[task.id] || false;
-
                       return (
                         <motion.li
+                          layout
                           variants={listItemVariants}
                           initial="hidden"
                           animate="visible"
@@ -73,10 +76,10 @@ const TaskList = ({ isFetchingTasks, tasks }) => {
                           <Card>
                             <div className={styles.container}>
                               <div className={styles.content}>
+                                <p className={styles.text}>{task.task}</p>
                                 <div className={styles.date_and_time}>
                                   <i>{dateAndTimeFormat(task.created_at)}</i>
                                 </div>
-                                <p className={styles.text}>{task.task}</p>
                               </div>
                               <div className={styles.buttonContent}>
                                 <div>

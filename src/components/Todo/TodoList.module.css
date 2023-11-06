@@ -15,7 +15,7 @@
 .textContent h4,
 .textContent p {
   color: black;
-  margin: 0.25em 0;
+  margin: 0.1em 0;
   font-weight: 800;
   text-align: left;
   word-wrap: break-word;
@@ -79,6 +79,7 @@
   font-size: 0.7rem;
   font-weight: 600;
   margin: 0;
+  margin-top: 1rem;
 }
 i {
   color: rgb(0, 0, 0, 0.7);
@@ -98,13 +99,4 @@ i {
   justify-content: center;
   align-items: center;
   margin: 0;
-}
-@media (min-width: 800px) {
-  /* section {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-  } */
 }
