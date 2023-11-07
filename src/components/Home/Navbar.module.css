@@ -99,6 +99,7 @@ div.username {
   text-align: center;
   margin-right: 0.25rem;
   display: flex;
+  font-weight: 500;
 }
 
 @media (max-width: 800px) {
