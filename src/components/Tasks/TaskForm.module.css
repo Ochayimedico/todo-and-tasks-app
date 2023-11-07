@@ -58,7 +58,6 @@
 span {
   font: inherit;
   color: white;
-  font-weight: 600;
 }
 @media (max-width: 500px) {
   .control label {
