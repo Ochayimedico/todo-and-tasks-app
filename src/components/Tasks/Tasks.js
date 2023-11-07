@@ -40,7 +40,7 @@ const Tasks = () => {
         (payload) => {
           if (payload.eventType === "INSERT") {
             // Handle new task insertion
-            setTasks((prevTasks) => [payload.new, ...prevTasks]);
+            setTasks((prevTasks) => [...prevTasks, payload.new]);
           } else if (payload.eventType === "DELETE") {
             // Handle task deletion
             setTasks((prevTasks) =>
