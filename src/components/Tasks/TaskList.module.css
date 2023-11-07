@@ -25,20 +25,22 @@
   letter-spacing: 0.025em;
   text-align: center;
 }
+
 .deleteButton:hover {
   background-color: #c21938;
   border: solid 2px #c21938;
 }
 .text {
-  max-width: 82%;
   height: auto;
   flex: 1;
   word-wrap: break-word;
+  word-break: break-all;
   overflow-wrap: break-word;
   font-weight: 600;
   color: black;
   margin: 0;
   text-align: left;
+  white-space: pre-line;
 }
 
 .loadingTasks {
@@ -73,11 +75,23 @@
 }
 .content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
 }
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
+}
+
+@media (max-width: 425px) {
+  .deleteButton {
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .h2 {
+    font-size: 1.2rem;
+  }
 }

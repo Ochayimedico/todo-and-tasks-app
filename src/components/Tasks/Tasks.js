@@ -25,7 +25,7 @@ const Tasks = () => {
           throw new Error("error loading tasks");
         }
       } catch (error) {
-        throw new Error(error);
+        throw new Error(" error fetching tasks");
       }
     };
     fetchTasks();
@@ -41,13 +41,11 @@ const Tasks = () => {
           if (payload.eventType === "INSERT") {
             // Handle new task insertion
             setTasks((prevTasks) => [payload.new, ...prevTasks]);
-            console.log("insert payload:", payload);
           } else if (payload.eventType === "DELETE") {
             // Handle task deletion
             setTasks((prevTasks) =>
               prevTasks.filter((task) => task.id !== payload.old.id)
             );
-            console.log("delete payload:", payload);
           }
         }
       )

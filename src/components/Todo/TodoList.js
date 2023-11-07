@@ -78,13 +78,9 @@ const TodoList = ({ todos, isFetchingTodos, setTodos }) => {
                                 <div className={styles.textContent}>
                                   <h4>{list.todo_title}</h4>
                                   <p>{list.todo}</p>
-                                </div>{" "}
-                                <div className={styles.date_and_time}>
-                                  <i>{dateAndTimeFormat(list.created_at)}</i>
                                 </div>
-                              </div>
-                              <div className={styles.buttonContent}>
-                                <div>
+
+                                <div className={styles.buttonContent}>
                                   <button
                                     type="button"
                                     onClick={() => deleteHandler(list.id)}
@@ -94,6 +90,9 @@ const TodoList = ({ todos, isFetchingTodos, setTodos }) => {
                                     {isDeleting ? "Deleting..." : "Delete"}
                                   </button>
                                 </div>
+                              </div>
+                              <div className={styles.date_and_time}>
+                                <i>{dateAndTimeFormat(list.created_at)}</i>
                               </div>
                             </div>
                           </Card>

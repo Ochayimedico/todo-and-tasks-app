@@ -1,5 +1,5 @@
 .control {
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   display: flex;
   align-items: stretch;
   flex-direction: column;
@@ -54,10 +54,18 @@
   text-align: left;
   margin: 0;
 }
-.addingTask {
+.addingTask,
+span {
   font: inherit;
   color: white;
-}
-span {
   font-weight: 600;
+}
+@media (max-width: 500px) {
+  .control label {
+    font-size: 1.2rem;
+  }
+  .addingTask,
+  span {
+    font-size: 1rem;
+  }
 }

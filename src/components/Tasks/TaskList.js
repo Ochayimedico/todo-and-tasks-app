@@ -77,12 +77,7 @@ const TaskList = ({ isFetchingTasks, tasks, setTasks }) => {
                             <div className={styles.container}>
                               <div className={styles.content}>
                                 <p className={styles.text}>{task.task}</p>
-                                <div className={styles.date_and_time}>
-                                  <i>{dateAndTimeFormat(task.created_at)}</i>
-                                </div>
-                              </div>
-                              <div className={styles.buttonContent}>
-                                <div>
+                                <div className={styles.buttonContent}>
                                   <button
                                     type="button"
                                     onClick={() => deleteHandler(task.id)}
@@ -92,6 +87,9 @@ const TaskList = ({ isFetchingTasks, tasks, setTasks }) => {
                                     {isDeleting ? "Deleting..." : "Delete"}
                                   </button>
                                 </div>
+                              </div>
+                              <div className={styles.date_and_time}>
+                                <i>{dateAndTimeFormat(task.created_at)}</i>
                               </div>
                             </div>
                           </Card>

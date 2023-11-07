@@ -6,34 +6,30 @@
 }
 
 .textContent {
-  max-width: 82%;
+  max-width: 100%; /* Ensure content doesn't exceed the card's width */
   display: flex;
   flex-direction: column;
   height: auto;
-  flex: 1;
 }
+
 .textContent h4,
 .textContent p {
+  white-space: pre-line;
   color: black;
-  margin: 0.1em 0;
+  margin: 0;
   font-weight: 800;
   text-align: left;
   word-wrap: break-word;
   overflow-wrap: break-word;
   font-size: 1.15rem;
+  word-break: break-all;
 }
 .textContent p {
   font-weight: 600;
   font-size: 1rem;
+  margin-top: 0.5rem;
 }
-.listContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: 700;
-  height: auto;
-}
+
 .deleteButton {
   background-color: #b00020;
   color: #fff;
@@ -86,12 +82,13 @@ i {
 }
 .content {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
 }
+
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 }
 .buttonContent {
@@ -99,4 +96,16 @@ i {
   justify-content: center;
   align-items: center;
   margin: 0;
+}
+
+@media (max-width: 425px) {
+  .deleteButton {
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .h2 {
+    font-size: 1.2rem;
+  }
 }
