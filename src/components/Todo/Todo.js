@@ -3,12 +3,17 @@ import { supabase } from "../../utils/supabase";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import styles from "./Todo.module.css";
-import { motion } from "framer-motion";
-import { linksVariants } from "../../utils/animationVariants";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  addSuccessVariants,
+  linksVariants,
+} from "../../utils/animationVariants";
+import AddSuccess from "../States/AddSuccess";
 
 const Todo = () => {
   const [todos, setTodos] = useState([]);
   const [isFetchingTodos, setIsFetchingTodos] = useState(false);
+  const [newTodoAdded, setNewTodoAdded] = useState(false);
   useEffect(() => {
     // Fetching Initial Todos
     setIsFetchingTodos(true);
@@ -21,10 +26,10 @@ const Todo = () => {
           setIsFetchingTodos(false);
           setTodos(todos);
         } else if (error) {
-          console.error("error loading todos", error);
+          throw new Error("error loading todos", error.message);
         }
       } catch (error) {
-        console.error(error);
+        throw new Error("Error fetching todos", error);
       }
     };
     fetchTodos();
@@ -38,6 +43,7 @@ const Todo = () => {
           if (payload.eventType === "INSERT") {
             // Handle new todo insertion
             setTodos((prevTodos) => [...prevTodos, payload.new]);
+            setNewTodoAdded(true);
           } else if (payload.eventType === "DELETE") {
             // Handle todo deletion
             setTodos((prevTodos) =>
@@ -51,26 +57,50 @@ const Todo = () => {
       todosSubscription.unsubscribe();
     };
   }, []);
+  useEffect(() => {
+    if (newTodoAdded) {
+      const timeoutId = setTimeout(() => {
+        setNewTodoAdded(false);
+      }, 3000);
 
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [newTodoAdded]);
   return (
-    <div className={styles.container}>
-      <motion.div
-        variants={linksVariants}
-        initial="hidden"
-        animate="visible"
-        className={styles.todoContent}
-      >
-        <div>
-          <TodoForm />
-          <TodoList
-            todos={todos}
-            isFetchingTodos={isFetchingTodos}
-            setTodos={setTodos}
-          />
-        </div>
-        )
-      </motion.div>
-    </div>
+    <>
+      <AnimatePresence>
+        {newTodoAdded && (
+          <motion.div
+            variants={addSuccessVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <AddSuccess />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className={styles.container}>
+        <motion.div
+          variants={linksVariants}
+          initial="hidden"
+          animate="visible"
+          className={styles.todoContent}
+        >
+          <div>
+            <TodoForm />
+            <TodoList
+              todos={todos}
+              isFetchingTodos={isFetchingTodos}
+              setTodos={setTodos}
+            />
+          </div>
+          )
+        </motion.div>
+      </div>
+    </>
   );
 };
 export default Todo;

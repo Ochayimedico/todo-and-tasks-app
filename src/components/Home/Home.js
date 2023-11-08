@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { homeVariants, buttonVariants } from "../../utils/animationVariants";
+
 const Home = () => {
   return (
     <AnimatePresence>

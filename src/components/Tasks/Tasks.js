@@ -4,11 +4,16 @@ import TaskForm from "./TaskForm";
 import { supabase } from "../../utils/supabase";
 import styles from "./Tasks.module.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { linksVariants } from "../../utils/animationVariants";
+import {
+  addSuccessVariants,
+  linksVariants,
+} from "../../utils/animationVariants";
+import AddSuccess from "../States/AddSuccess";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [isFetchingTasks, setIsFetchingTasks] = useState(false);
+  const [newTaskAdded, setNewTaskAdded] = useState(false);
   useEffect(() => {
     setIsFetchingTasks(true);
     // Function to fetch the initial list of tasks
@@ -41,6 +46,7 @@ const Tasks = () => {
           if (payload.eventType === "INSERT") {
             // Handle new task insertion
             setTasks((prevTasks) => [...prevTasks, payload.new]);
+            setNewTaskAdded(true);
           } else if (payload.eventType === "DELETE") {
             // Handle task deletion
             setTasks((prevTasks) =>
@@ -54,8 +60,31 @@ const Tasks = () => {
       await tasksSubscription.unsubscribe();
     };
   }, []);
+  useEffect(() => {
+    if (newTaskAdded) {
+      const timeoutId = setTimeout(() => {
+        setNewTaskAdded(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [newTaskAdded]);
   return (
-    <AnimatePresence>
+    <>
+      <AnimatePresence>
+        {newTaskAdded && (
+          <motion.div
+            variants={addSuccessVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <AddSuccess />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div className={styles.container}>
         <motion.div
           variants={linksVariants}
@@ -72,7 +101,7 @@ const Tasks = () => {
           />
         </motion.div>
       </motion.div>
-    </AnimatePresence>
+    </>
   );
 };
 export default Tasks;

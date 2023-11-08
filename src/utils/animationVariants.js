@@ -124,3 +124,22 @@ export const listItemVariants = {
     transition: { duration: 1, ease: "easeOut" },
   },
 };
+export const addSuccessVariants = {
+  hidden: { y: -50, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 1,
+      ease: "easeIn",
+      type: "spring",
+      mass: 4,
+      damping: 25,
+    },
+  },
+  exit: {
+    y: -50,
+    opacity: 0,
+    transition: { duration: 1.5, ease: "easeOut" },
+  },
+};

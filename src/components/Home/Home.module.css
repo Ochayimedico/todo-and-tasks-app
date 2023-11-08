@@ -3,10 +3,10 @@
   margin-top: 5rem;
 }
 
-.content h1 {
+h1 {
   color: #0077b6;
 }
-.content p {
+p {
   color: white;
 }
 .button {
@@ -74,10 +74,10 @@
     margin: 0.4rem auto;
     font-size: 0.6rem;
   }
-  .content h1 {
+  h1 {
     font-size: 0.8rem;
   }
-  .content p {
+  p {
     font-size: 0.6rem;
     margin: 0 1rem;
   }
