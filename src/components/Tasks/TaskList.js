@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import Card from "../UI/Card";
 import styles from "./TaskList.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../../utils/supabase";
@@ -65,6 +64,7 @@ const TaskList = ({ isFetchingTasks, tasks, setTasks }) => {
                       const isDeleting = taskDeletingState[task.id] || false;
                       return (
                         <motion.li
+                          className={styles.list}
                           layout
                           variants={listItemVariants}
                           initial="hidden"
@@ -73,26 +73,24 @@ const TaskList = ({ isFetchingTasks, tasks, setTasks }) => {
                           custom={i}
                           key={task.id}
                         >
-                          <Card>
-                            <div className={styles.container}>
-                              <div className={styles.content}>
-                                <p className={styles.text}>{task.task}</p>
-                                <div className={styles.buttonContent}>
-                                  <button
-                                    type="button"
-                                    onClick={() => deleteHandler(task.id)}
-                                    disabled={isDeleting}
-                                    className={styles.deleteButton}
-                                  >
-                                    {isDeleting ? "Deleting..." : "Delete"}
-                                  </button>
-                                </div>
-                              </div>
-                              <div className={styles.date_and_time}>
-                                <i>{dateAndTimeFormat(task.created_at)}</i>
+                          <div className={styles.container}>
+                            <div className={styles.content}>
+                              <p className={styles.text}>{task.task}</p>
+                              <div className={styles.buttonContent}>
+                                <button
+                                  type="button"
+                                  onClick={() => deleteHandler(task.id)}
+                                  disabled={isDeleting}
+                                  className={styles.deleteButton}
+                                >
+                                  {isDeleting ? "Deleting..." : "Delete"}
+                                </button>
                               </div>
                             </div>
-                          </Card>
+                            <div className={styles.date_and_time}>
+                              <i>{dateAndTimeFormat(task.created_at)}</i>
+                            </div>
+                          </div>
                         </motion.li>
                       );
                     })}

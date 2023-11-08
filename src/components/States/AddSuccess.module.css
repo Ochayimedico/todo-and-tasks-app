@@ -33,3 +33,14 @@ img {
   align-items: center;
   padding: 0;
 }
+@media (min-width: 500px) {
+  .addSuccess {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1000px) {
+  .addSuccess {
+    width: 50%;
+  }
+}

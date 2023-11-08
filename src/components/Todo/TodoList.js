@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Card from "../UI/Card";
+
 import styles from "./TodoList.module.css";
 import { supabase } from "../../utils/supabase";
 import {
@@ -23,7 +23,7 @@ const TodoList = ({ todos, isFetchingTodos, setTodos }) => {
       const updatedTodos = todos.filter((todo) => todo.id !== id);
       setTodos(updatedTodos);
     } catch (error) {
-      console.error(error);
+      throw new Error(error);
     }
   };
 
@@ -64,6 +64,7 @@ const TodoList = ({ todos, isFetchingTodos, setTodos }) => {
                       const isDeleting = todoDeletingState[list.id] || false;
                       return (
                         <motion.li
+                          className={styles.list}
                           layout
                           variants={listItemVariants}
                           initial="hidden"
@@ -72,30 +73,28 @@ const TodoList = ({ todos, isFetchingTodos, setTodos }) => {
                           exit="exit"
                           key={list.id}
                         >
-                          <Card>
-                            <div className={styles.container}>
-                              <div className={styles.content}>
-                                <div className={styles.textContent}>
-                                  <h4>{list.todo_title}</h4>
-                                  <p>{list.todo}</p>
-                                </div>
-
-                                <div className={styles.buttonContent}>
-                                  <button
-                                    type="button"
-                                    onClick={() => deleteHandler(list.id)}
-                                    disabled={isDeleting}
-                                    className={styles.deleteButton}
-                                  >
-                                    {isDeleting ? "Deleting..." : "Delete"}
-                                  </button>
-                                </div>
+                          <div className={styles.container}>
+                            <div className={styles.content}>
+                              <div className={styles.textContent}>
+                                <h4>{list.todo_title}</h4>
+                                <p>{list.todo}</p>
                               </div>
-                              <div className={styles.date_and_time}>
-                                <i>{dateAndTimeFormat(list.created_at)}</i>
+
+                              <div className={styles.buttonContent}>
+                                <button
+                                  type="button"
+                                  onClick={() => deleteHandler(list.id)}
+                                  disabled={isDeleting}
+                                  className={styles.deleteButton}
+                                >
+                                  {isDeleting ? "Deleting..." : "Delete"}
+                                </button>
                               </div>
                             </div>
-                          </Card>
+                            <div className={styles.date_and_time}>
+                              <i>{dateAndTimeFormat(list.created_at)}</i>
+                            </div>
+                          </div>
                         </motion.li>
                       );
                     })}
